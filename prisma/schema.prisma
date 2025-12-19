@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated"
+ 
+}
+
+datasource db {
+  provider = "postgresql"
+}
+enum Role {
+  ADMIN
+  ORGANIZER
+  USER
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username      String
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  isVerified Boolean  @default(false)
+
+  events    Event[]  @relation("OrganizerEvents")
+  registers Registration[]
+
+  createdAt DateTime @default(now())
+}
+
+model Event {
+  id            String   @id @default(uuid())
+  title         String
+  description   String
+  date          DateTime
+  location      String
+
+  // Organizer
+  organizerId   String
+  organizer     User     @relation("OrganizerEvents", fields: [organizerId], references: [id])
+
+  // Category
+  categoryId    String
+  category      Category @relation(fields: [categoryId], references: [id])
+
+  // Payment
+  isPaid        Boolean  @default(false)
+  price         Float?   // only if paid
+  paymentQR     String?  // image URL or base64
+
+  // Slot / Ticket
+  totalSlots    Int
+  availableSlots Int
+
+  registrations Registration[]
+
+  createdAt     DateTime @default(now())
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  isActive  Boolean  @default(true)
+
+  events    Event[]
+
+  createdAt DateTime @default(now())
+}
+
+model Registration {
+  id        String   @id @default(uuid())
+
+  // Relations
+  userId    String
+  eventId   String
+
+  user      User     @relation(fields: [userId], references: [id])
+  event     Event    @relation(fields: [eventId], references: [id])
+
+  // Registration-time details
+  fullName  String
+  email     String
+  phone     String
+  address   String
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, eventId])
+}
