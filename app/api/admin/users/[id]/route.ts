@@ -1,7 +1,8 @@
 import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { hash } from "bcryptjs";
-import type { Prisma, Role } from "@/src/generated/client";
+import { Prisma } from "@/src/generated/client";
+import type { Role } from "@/src/generated/enums";
 
 type RouteParams = { id?: string }
 

@@ -17,37 +17,32 @@ import z from 'zod'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import axios from 'axios'
-import { IUser } from "../types/types"
+import { ICategory } from "../types/types"
 import { Edit } from "lucide-react"
 
 const FormSchema = z.object({
     name: z.string().min(2, {
         message: "name must be at least 2 characters.",
-    }).max(15, {
-        message: "name must be less than 15 characters"
+    }).max(50, {
+        message: "name must be less than 50 characters"
     }),
-    email: z.string().email().min(4, {
-        message: "Email must be at least 4 characters.",
-    }),
-    role: z.enum(["ADMIN", "ORGANIZER", "USER"] as const),
-    isVerified: z.boolean()
+    
+    isActive: z.boolean()
 })
 
-interface IAddUserProps {
-    user: IUser
-    handleUpdateLocalState: (user: IUser, type: string) => void
+interface IEditCategoryProps {
+    category: ICategory
+    handleUpdateLocalState: (category: ICategory, type: string) => void
 }
 
-export function EditUser({ user, handleUpdateLocalState }: IAddUserProps) {
+export function EditCategory({ category, handleUpdateLocalState }: IEditCategoryProps) {
     const [open, setOpen] = useState(false)
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            name: user.name,
-            email: user.email,
-            isVerified: user.isVerified,
-            role: user.role
+            name: category.name,
+            isActive: category.isActive,
         },
     })
 
@@ -55,22 +50,22 @@ export function EditUser({ user, handleUpdateLocalState }: IAddUserProps) {
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
         console.log(data)
         try {
-            const response = await axios.put(`/api/admin/users/${user.id}`, data);
+            const response = await axios.put(`/api/admin/category/${category.id}`, data);
             if (response.status === 200) {
-                toast.success("User Updated Successfully (PUT)")
+                toast.success("Category Updated Successfully")
                 handleUpdateLocalState(response.data.data, "edit")
                 setOpen(false)
             }
-        } catch (error) {
-            if (axios.isAxiosError(error)) {
-                toast.error(error.response?.data?.error || "Error Updating User")
-            } else {
-                toast.error("Error Updating User")
-            }
+        } catch (error: unknown) {
+            const message = axios.isAxiosError(error)
+                ? (typeof error.response?.data === "object" && error.response?.data !== null && "error" in error.response.data
+                    ? String((error.response.data as Record<string, unknown>).error)
+                    : error.message)
+                : "Error Updating Category"
+            toast.error(message)
         }
     }
 
-    // PATCH removed — using PUT only per request
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -81,9 +76,9 @@ export function EditUser({ user, handleUpdateLocalState }: IAddUserProps) {
             </DialogTrigger>
             <DialogContent className="sm:max-w-2xl">
                 <DialogHeader>
-                    <DialogTitle>Edit profile</DialogTitle>
+                    <DialogTitle>Edit Category</DialogTitle>
                     <DialogDescription>
-                        Make changes to your profile here. Click save when you&apos;re done.
+                        Make changes to your category here. Click save when you&apos;re done.
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
@@ -98,7 +93,7 @@ export function EditUser({ user, handleUpdateLocalState }: IAddUserProps) {
                                         <Input placeholder="shadcn" {...field} />
                                     </FormControl>
                                     <FormDescription>
-                                        This is your public display name.
+                                        This is your public display category name.
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
@@ -106,49 +101,11 @@ export function EditUser({ user, handleUpdateLocalState }: IAddUserProps) {
                         />
                         <FormField
                             control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Email</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="example@gmail.com" {...field} />
-                                    </FormControl>
-                                    <FormDescription>
-                                        This is your email
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="role"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Role</FormLabel>
-                                    <Select onValueChange={field.onChange} value={field.value}>
-                                        <FormControl>
-                                            <SelectTrigger className="w-full">
-                                                <SelectValue placeholder="Select a role." />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value="ADMIN">ADMIN</SelectItem>
-                                            <SelectItem value="ORGANIZER">ORGANIZER</SelectItem>
-                                            <SelectItem value="USER">USER</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="isVerified"
+                            name="isActive"
                             render={({ field }) => (
                                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
                                     <div className="space-y-0.5">
-                                        <FormLabel>Is Verified</FormLabel>
+                                        <FormLabel>Is Active</FormLabel>
                                     </div>
                                     <FormControl>
                                         <Switch

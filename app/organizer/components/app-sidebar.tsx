@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Calendar, Home, Inbox, Layers } from "lucide-react"
+import { Calendar, Home, User } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
@@ -15,10 +15,9 @@ import {
 } from "@/components/ui/sidebar"
 
 const items = [
-  { title: "Dashboard", url: "/admin", icon: Home },
-  { title: "Users", url: "/admin/users", icon: Inbox },
-  { title: "Events", url: "/admin/event", icon: Calendar },
-  { title: "Category", url: "/admin/category", icon: Layers },
+  { title: "Dashboard", url: "/organizer", icon: Home },
+  { title: "Events", url: "/organizer/events", icon: Calendar },
+  { title: "Profile", url: "/organizer/profile", icon: User },
 ]
 
 export function AppSidebar() {

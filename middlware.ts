@@ -33,7 +33,7 @@ export async function middleware(request: NextRequest) {
     const redirectUrl = token.isVerified
       ? token.role === "ADMIN"
         ? "/admin"
-        : token.role === "ORGANIZER"
+        : token.role === "Organizer"
         ? "/organizer"
         : "/user"
       : "/verification";
@@ -45,7 +45,7 @@ export async function middleware(request: NextRequest) {
     const redirectUrl =
       token.role === "ADMIN"
         ? "/admin"
-        : token.role === "ORGANIZER"
+        : token.role === "Organizer"
         ? "/organizer"
         : "/user";
     return NextResponse.redirect(new URL(redirectUrl, request.url));
@@ -72,13 +72,13 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/admin", request.url));
     }
     if (
-      token.role === "ORGANIZER" &&
+      token.role === "Organizer" &&
       (pathname.startsWith("/admin") || pathname.startsWith("/user"))
     ) {
       return NextResponse.redirect(new URL("/organizer", request.url));
     }
     if (
-      token.role === "STAFF" &&
+      token.role === "USER" &&
       (pathname.startsWith("/admin") || pathname.startsWith("/organizer"))
     ) {
       return NextResponse.redirect(new URL("/user", request.url));
@@ -88,4 +88,3 @@ export async function middleware(request: NextRequest) {
 
   return NextResponse.next();
 }
-

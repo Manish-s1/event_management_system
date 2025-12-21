@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,12 +38,9 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export default function LoginPageWithCredentials() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const router = useRouter();
-    const { status } = useSession()
 
     const form = useForm<LoginFormValues>({
         resolver: zodResolver(loginSchema),
-        mode: "onChange", // Enable validation on change
         defaultValues: {
             email: "",
             password: "",
@@ -67,29 +63,12 @@ export default function LoginPageWithCredentials() {
             } else if (res?.ok) {
                 // Successful login
                 toast.success("Logged in successfully!");
-                
-                // Fetch session to get user role
-                const response = await fetch("/api/auth/session");
-                const session = await response.json();
-                
-                // Redirect based on role
-                if (session?.user?.role === "ADMIN") {
-                    router.push("/admin");
-                } else if (session?.user?.role === "ORGANIZER") {
-                    router.push("/organizer");
-                } else {
-                    router.push("/"); // Regular users go to home
-                }
+                // Full page navigation so middleware can route based on role
+                window.location.href = "/";
             }
         } catch (error: unknown) {
-  if (error instanceof Error) {
-    // error.message exists
-    toast.error(error.message || "Failed to login");
-  } else {
-    // fallback for non-Error objects
-    toast.error("Failed to login");
-  }
-
+            const message = error instanceof Error ? error.message : "Failed to login";
+            toast.error(message);
         } finally {
             setLoading(false);
         }
@@ -147,7 +126,7 @@ export default function LoginPageWithCredentials() {
                             <Button
                                 type="submit"
                                 className="w-full h-11  font-medium "
-                                disabled={loading}
+                                disabled={!form.formState.isValid || loading}
                             >
                                 {loading ? (
                                     <div className="flex items-center gap-2">

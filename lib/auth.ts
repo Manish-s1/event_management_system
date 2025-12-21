@@ -1,8 +1,7 @@
-// lib/auth.ts (or auth/config.ts)
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
-import prisma  from "./prisma";
+import prisma from "./prisma";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -29,6 +28,7 @@ export const authOptions: NextAuthOptions = {
           name: user.username,
           email: user.email,
           isVerified: user.isVerified,
+          role: user.role,
         };
       },
     }),
@@ -38,10 +38,12 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    async jwt({ token, trigger, user }) {
+    async jwt({ token, user }) {
       // On sign in, user object is available
-      if (trigger === "signIn" && user) {
+      if (user) {
         token.userId = user.id;
+        token.email = user.email;
+        token.name = user.name;
         token.isVerified = user.isVerified;
         token.role = user.role;
         return token;

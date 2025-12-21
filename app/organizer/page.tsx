@@ -32,12 +32,12 @@ export default function AdminDashboard() {
   return (
     <div className="p-10">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+        <h1 className="text-2xl font-bold">Organizer Dashboard</h1>
         <button
           onClick={() => setOpen(true)}
           className="bg-black text-white px-4 py-2 rounded"
         >
-           Add Category
+           Event Category
         </button>
       </div>
 

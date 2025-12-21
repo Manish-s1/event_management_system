@@ -11,7 +11,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <header className="border-b bg-white sticky top-0 z-20">
             <div className="flex h-14 items-center gap-2 px-4">
               <SidebarTrigger />
-              <span className="font-semibold">Admin Panel</span>
+              <span className="font-semibold">Organizer Panel</span>
               <div className="ml-auto">
                 <LogoutButton />
               </div>

@@ -10,7 +10,7 @@ const Page = () => {
         <div className='flex flex-col h-screen '>
             <LoginPageWithCredentials />
 
-            {status === 'authenticated' && (
+            {/* {status === 'authenticated' && (
                 <button
                     className='cursor-pointer bg-black px-4 py-2 w-40 rounded-md text-white'
                     onClick={() => signOut()}
@@ -18,7 +18,7 @@ const Page = () => {
                     log out
                 </button>)}
             <div>Logged In as: {session?.user?.name}</div>
-            <pre>{JSON.stringify(session, null, 2)}</pre>
+            <pre>{JSON.stringify(session, null, 2)}</pre> */}
         </div>
     )
 }
