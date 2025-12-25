@@ -39,6 +39,7 @@ model Event {
   description   String
   date          DateTime
   location      String
+  imageUrl      String?  // event photo
 
   // Organizer
   organizerId   String
@@ -46,7 +47,7 @@ model Event {
 
   // Category
   categoryId    String
-  category      Category @relation(fields: [categoryId], references: [id])
+  category      Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   // Payment
   isPaid        Boolean  @default(false)
@@ -80,13 +81,18 @@ model Registration {
   eventId   String
 
   user      User     @relation(fields: [userId], references: [id])
-  event     Event    @relation(fields: [eventId], references: [id])
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   // Registration-time details
   fullName  String
   email     String
   phone     String
   address   String
+
+  // Payment & Verification
+  paymentScreenshot String?
+  isVerified        Boolean  @default(false)
+  ticketIssued      Boolean  @default(false)
 
   createdAt DateTime @default(now())
 

@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 
 import {
     Card,
@@ -38,6 +39,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export default function LoginPageWithCredentials() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const router = useRouter();
 
     const form = useForm<LoginFormValues>({
         resolver: zodResolver(loginSchema),
@@ -63,8 +65,19 @@ export default function LoginPageWithCredentials() {
             } else if (res?.ok) {
                 // Successful login
                 toast.success("Logged in successfully!");
-                // Full page navigation so middleware can route based on role
-                window.location.href = "/";
+                
+                // Fetch session to get user role
+                const response = await fetch('/api/auth/session');
+                const session = await response.json();
+                
+                // Redirect based on role
+                if (session?.user?.role === 'ADMIN') {
+                    window.location.href = "/admin";
+                } else if (session?.user?.role === 'ORGANIZER') {
+                    window.location.href = "/organizer";
+                } else {
+                    window.location.href = "/";
+                }
             }
         } catch (error: unknown) {
             const message = error instanceof Error ? error.message : "Failed to login";

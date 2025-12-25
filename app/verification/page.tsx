@@ -11,9 +11,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import Header from "@/components/components/header";
+import Footer from "@/components/components/footer";
 
 export default function VerificationPage() {
   return (
+    <>
+    <Header />
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center space-y-4">
@@ -56,5 +60,7 @@ export default function VerificationPage() {
         </CardContent>
       </Card>
     </div>
+    <Footer />
+    </>
   );
 }

@@ -44,6 +44,7 @@ export type EventMinAggregateOutputType = {
   description: string | null
   date: Date | null
   location: string | null
+  imageUrl: string | null
   organizerId: string | null
   categoryId: string | null
   isPaid: boolean | null
@@ -60,6 +61,7 @@ export type EventMaxAggregateOutputType = {
   description: string | null
   date: Date | null
   location: string | null
+  imageUrl: string | null
   organizerId: string | null
   categoryId: string | null
   isPaid: boolean | null
@@ -76,6 +78,7 @@ export type EventCountAggregateOutputType = {
   description: number
   date: number
   location: number
+  imageUrl: number
   organizerId: number
   categoryId: number
   isPaid: number
@@ -106,6 +109,7 @@ export type EventMinAggregateInputType = {
   description?: true
   date?: true
   location?: true
+  imageUrl?: true
   organizerId?: true
   categoryId?: true
   isPaid?: true
@@ -122,6 +126,7 @@ export type EventMaxAggregateInputType = {
   description?: true
   date?: true
   location?: true
+  imageUrl?: true
   organizerId?: true
   categoryId?: true
   isPaid?: true
@@ -138,6 +143,7 @@ export type EventCountAggregateInputType = {
   description?: true
   date?: true
   location?: true
+  imageUrl?: true
   organizerId?: true
   categoryId?: true
   isPaid?: true
@@ -241,6 +247,7 @@ export type EventGroupByOutputType = {
   description: string
   date: Date
   location: string
+  imageUrl: string | null
   organizerId: string
   categoryId: string
   isPaid: boolean
@@ -280,6 +287,7 @@ export type EventWhereInput = {
   description?: Prisma.StringFilter<"Event"> | string
   date?: Prisma.DateTimeFilter<"Event"> | Date | string
   location?: Prisma.StringFilter<"Event"> | string
+  imageUrl?: Prisma.StringNullableFilter<"Event"> | string | null
   organizerId?: Prisma.StringFilter<"Event"> | string
   categoryId?: Prisma.StringFilter<"Event"> | string
   isPaid?: Prisma.BoolFilter<"Event"> | boolean
@@ -299,6 +307,7 @@ export type EventOrderByWithRelationInput = {
   description?: Prisma.SortOrder
   date?: Prisma.SortOrder
   location?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   organizerId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   isPaid?: Prisma.SortOrder
@@ -321,6 +330,7 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringFilter<"Event"> | string
   date?: Prisma.DateTimeFilter<"Event"> | Date | string
   location?: Prisma.StringFilter<"Event"> | string
+  imageUrl?: Prisma.StringNullableFilter<"Event"> | string | null
   organizerId?: Prisma.StringFilter<"Event"> | string
   categoryId?: Prisma.StringFilter<"Event"> | string
   isPaid?: Prisma.BoolFilter<"Event"> | boolean
@@ -340,6 +350,7 @@ export type EventOrderByWithAggregationInput = {
   description?: Prisma.SortOrder
   date?: Prisma.SortOrder
   location?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   organizerId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   isPaid?: Prisma.SortOrder
@@ -364,6 +375,7 @@ export type EventScalarWhereWithAggregatesInput = {
   description?: Prisma.StringWithAggregatesFilter<"Event"> | string
   date?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
   location?: Prisma.StringWithAggregatesFilter<"Event"> | string
+  imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   organizerId?: Prisma.StringWithAggregatesFilter<"Event"> | string
   categoryId?: Prisma.StringWithAggregatesFilter<"Event"> | string
   isPaid?: Prisma.BoolWithAggregatesFilter<"Event"> | boolean
@@ -380,6 +392,7 @@ export type EventCreateInput = {
   description: string
   date: Date | string
   location: string
+  imageUrl?: string | null
   isPaid?: boolean
   price?: number | null
   paymentQR?: string | null
@@ -397,6 +410,7 @@ export type EventUncheckedCreateInput = {
   description: string
   date: Date | string
   location: string
+  imageUrl?: string | null
   organizerId: string
   categoryId: string
   isPaid?: boolean
@@ -414,6 +428,7 @@ export type EventUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   paymentQR?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -431,6 +446,7 @@ export type EventUncheckedUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizerId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   isPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -448,6 +464,7 @@ export type EventCreateManyInput = {
   description: string
   date: Date | string
   location: string
+  imageUrl?: string | null
   organizerId: string
   categoryId: string
   isPaid?: boolean
@@ -464,6 +481,7 @@ export type EventUpdateManyMutationInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   paymentQR?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -478,6 +496,7 @@ export type EventUncheckedUpdateManyInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizerId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   isPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -504,6 +523,7 @@ export type EventCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   date?: Prisma.SortOrder
   location?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   organizerId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   isPaid?: Prisma.SortOrder
@@ -526,6 +546,7 @@ export type EventMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   date?: Prisma.SortOrder
   location?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   organizerId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   isPaid?: Prisma.SortOrder
@@ -542,6 +563,7 @@ export type EventMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   date?: Prisma.SortOrder
   location?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   organizerId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   isPaid?: Prisma.SortOrder
@@ -605,16 +627,16 @@ export type EventUncheckedUpdateManyWithoutOrganizerNestedInput = {
   deleteMany?: Prisma.EventScalarWhereInput | Prisma.EventScalarWhereInput[]
 }
 
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
 export type NullableFloatFieldUpdateOperationsInput = {
   set?: number | null
   increment?: number
   decrement?: number
   multiply?: number
   divide?: number
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -687,6 +709,7 @@ export type EventCreateWithoutOrganizerInput = {
   description: string
   date: Date | string
   location: string
+  imageUrl?: string | null
   isPaid?: boolean
   price?: number | null
   paymentQR?: string | null
@@ -703,6 +726,7 @@ export type EventUncheckedCreateWithoutOrganizerInput = {
   description: string
   date: Date | string
   location: string
+  imageUrl?: string | null
   categoryId: string
   isPaid?: boolean
   price?: number | null
@@ -748,6 +772,7 @@ export type EventScalarWhereInput = {
   description?: Prisma.StringFilter<"Event"> | string
   date?: Prisma.DateTimeFilter<"Event"> | Date | string
   location?: Prisma.StringFilter<"Event"> | string
+  imageUrl?: Prisma.StringNullableFilter<"Event"> | string | null
   organizerId?: Prisma.StringFilter<"Event"> | string
   categoryId?: Prisma.StringFilter<"Event"> | string
   isPaid?: Prisma.BoolFilter<"Event"> | boolean
@@ -764,6 +789,7 @@ export type EventCreateWithoutCategoryInput = {
   description: string
   date: Date | string
   location: string
+  imageUrl?: string | null
   isPaid?: boolean
   price?: number | null
   paymentQR?: string | null
@@ -780,6 +806,7 @@ export type EventUncheckedCreateWithoutCategoryInput = {
   description: string
   date: Date | string
   location: string
+  imageUrl?: string | null
   organizerId: string
   isPaid?: boolean
   price?: number | null
@@ -822,6 +849,7 @@ export type EventCreateWithoutRegistrationsInput = {
   description: string
   date: Date | string
   location: string
+  imageUrl?: string | null
   isPaid?: boolean
   price?: number | null
   paymentQR?: string | null
@@ -838,6 +866,7 @@ export type EventUncheckedCreateWithoutRegistrationsInput = {
   description: string
   date: Date | string
   location: string
+  imageUrl?: string | null
   organizerId: string
   categoryId: string
   isPaid?: boolean
@@ -870,6 +899,7 @@ export type EventUpdateWithoutRegistrationsInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   paymentQR?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -886,6 +916,7 @@ export type EventUncheckedUpdateWithoutRegistrationsInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizerId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   isPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -902,6 +933,7 @@ export type EventCreateManyOrganizerInput = {
   description: string
   date: Date | string
   location: string
+  imageUrl?: string | null
   categoryId: string
   isPaid?: boolean
   price?: number | null
@@ -917,6 +949,7 @@ export type EventUpdateWithoutOrganizerInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   paymentQR?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -933,6 +966,7 @@ export type EventUncheckedUpdateWithoutOrganizerInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   isPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -949,6 +983,7 @@ export type EventUncheckedUpdateManyWithoutOrganizerInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   isPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -964,6 +999,7 @@ export type EventCreateManyCategoryInput = {
   description: string
   date: Date | string
   location: string
+  imageUrl?: string | null
   organizerId: string
   isPaid?: boolean
   price?: number | null
@@ -979,6 +1015,7 @@ export type EventUpdateWithoutCategoryInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   paymentQR?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -995,6 +1032,7 @@ export type EventUncheckedUpdateWithoutCategoryInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizerId?: Prisma.StringFieldUpdateOperationsInput | string
   isPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1011,6 +1049,7 @@ export type EventUncheckedUpdateManyWithoutCategoryInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizerId?: Prisma.StringFieldUpdateOperationsInput | string
   isPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1057,6 +1096,7 @@ export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   description?: boolean
   date?: boolean
   location?: boolean
+  imageUrl?: boolean
   organizerId?: boolean
   categoryId?: boolean
   isPaid?: boolean
@@ -1077,6 +1117,7 @@ export type EventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   description?: boolean
   date?: boolean
   location?: boolean
+  imageUrl?: boolean
   organizerId?: boolean
   categoryId?: boolean
   isPaid?: boolean
@@ -1095,6 +1136,7 @@ export type EventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   description?: boolean
   date?: boolean
   location?: boolean
+  imageUrl?: boolean
   organizerId?: boolean
   categoryId?: boolean
   isPaid?: boolean
@@ -1113,6 +1155,7 @@ export type EventSelectScalar = {
   description?: boolean
   date?: boolean
   location?: boolean
+  imageUrl?: boolean
   organizerId?: boolean
   categoryId?: boolean
   isPaid?: boolean
@@ -1123,7 +1166,7 @@ export type EventSelectScalar = {
   createdAt?: boolean
 }
 
-export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "date" | "location" | "organizerId" | "categoryId" | "isPaid" | "price" | "paymentQR" | "totalSlots" | "availableSlots" | "createdAt", ExtArgs["result"]["event"]>
+export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "date" | "location" | "imageUrl" | "organizerId" | "categoryId" | "isPaid" | "price" | "paymentQR" | "totalSlots" | "availableSlots" | "createdAt", ExtArgs["result"]["event"]>
 export type EventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organizer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
@@ -1152,6 +1195,7 @@ export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     description: string
     date: Date
     location: string
+    imageUrl: string | null
     organizerId: string
     categoryId: string
     isPaid: boolean
@@ -1591,6 +1635,7 @@ export interface EventFieldRefs {
   readonly description: Prisma.FieldRef<"Event", 'String'>
   readonly date: Prisma.FieldRef<"Event", 'DateTime'>
   readonly location: Prisma.FieldRef<"Event", 'String'>
+  readonly imageUrl: Prisma.FieldRef<"Event", 'String'>
   readonly organizerId: Prisma.FieldRef<"Event", 'String'>
   readonly categoryId: Prisma.FieldRef<"Event", 'String'>
   readonly isPaid: Prisma.FieldRef<"Event", 'Boolean'>

@@ -10,30 +10,31 @@ export async function middleware(request: NextRequest) {
 
   const isValidToken = token && token.userId && token.email;
 
+  // Public routes that don't require authentication
+  const publicRoutes = ["/", "/auth/login", "/auth/signup", "/events", "/categories"];
+  const isPublicPath = publicRoutes.some(route => pathname.startsWith(route));
+
   // Redirect unauthenticated users away from protected routes
   if (
     !isValidToken &&
+    !isPublicPath &&
     (pathname.startsWith("/admin") ||
       pathname.startsWith("/organizer") ||
       pathname.startsWith("/user") ||
       pathname.startsWith("/verification"))
   ) {
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 
-  // Redirect authenticated users away from auth pages or home
+  // Redirect authenticated users from auth pages to their dashboard (but allow home page)
   if (
     isValidToken &&
-    (pathname === "/" || pathname.startsWith("/auth")) &&
-    !pathname.startsWith("/admin") &&
-    !pathname.startsWith("/organizer") &&
-    !pathname.startsWith("/user") &&
-    !pathname.startsWith("/verification")
+    pathname.startsWith("/auth")
   ) {
     const redirectUrl = token.isVerified
       ? token.role === "ADMIN"
         ? "/admin"
-        : token.role === "Organizer"
+        : token.role === "ORGANIZER"
         ? "/organizer"
         : "/user"
       : "/verification";
@@ -45,7 +46,7 @@ export async function middleware(request: NextRequest) {
     const redirectUrl =
       token.role === "ADMIN"
         ? "/admin"
-        : token.role === "Organizer"
+        : token.role === "ORGANIZER"
         ? "/organizer"
         : "/user";
     return NextResponse.redirect(new URL(redirectUrl, request.url));
@@ -64,27 +65,41 @@ export async function middleware(request: NextRequest) {
 
   // Role-based access control for verified users
   if (isValidToken && token?.isVerified) {
-    // SUPER_ADMIN can only access /admin, redirect from /app
+    // ADMIN can only access /admin, redirect from /organizer or /user
     if (
       token.role === "ADMIN" &&
       (pathname.startsWith("/organizer") || pathname.startsWith("/user"))
     ) {
       return NextResponse.redirect(new URL("/admin", request.url));
     }
+    // ORGANIZER can only access /organizer, redirect from /admin or /user
     if (
-      token.role === "Organizer" &&
+      token.role === "ORGANIZER" &&
       (pathname.startsWith("/admin") || pathname.startsWith("/user"))
     ) {
       return NextResponse.redirect(new URL("/organizer", request.url));
     }
+    // USER can only access /user, redirect from /admin or /organizer
     if (
       token.role === "USER" &&
       (pathname.startsWith("/admin") || pathname.startsWith("/organizer"))
     ) {
       return NextResponse.redirect(new URL("/user", request.url));
     }
-
   }
 
   return NextResponse.next();
+}
+
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+  ],
 }

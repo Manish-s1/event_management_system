@@ -32,6 +32,9 @@ export type RegistrationMinAggregateOutputType = {
   email: string | null
   phone: string | null
   address: string | null
+  paymentScreenshot: string | null
+  isVerified: boolean | null
+  ticketIssued: boolean | null
   createdAt: Date | null
 }
 
@@ -43,6 +46,9 @@ export type RegistrationMaxAggregateOutputType = {
   email: string | null
   phone: string | null
   address: string | null
+  paymentScreenshot: string | null
+  isVerified: boolean | null
+  ticketIssued: boolean | null
   createdAt: Date | null
 }
 
@@ -54,6 +60,9 @@ export type RegistrationCountAggregateOutputType = {
   email: number
   phone: number
   address: number
+  paymentScreenshot: number
+  isVerified: number
+  ticketIssued: number
   createdAt: number
   _all: number
 }
@@ -67,6 +76,9 @@ export type RegistrationMinAggregateInputType = {
   email?: true
   phone?: true
   address?: true
+  paymentScreenshot?: true
+  isVerified?: true
+  ticketIssued?: true
   createdAt?: true
 }
 
@@ -78,6 +90,9 @@ export type RegistrationMaxAggregateInputType = {
   email?: true
   phone?: true
   address?: true
+  paymentScreenshot?: true
+  isVerified?: true
+  ticketIssued?: true
   createdAt?: true
 }
 
@@ -89,6 +104,9 @@ export type RegistrationCountAggregateInputType = {
   email?: true
   phone?: true
   address?: true
+  paymentScreenshot?: true
+  isVerified?: true
+  ticketIssued?: true
   createdAt?: true
   _all?: true
 }
@@ -173,6 +191,9 @@ export type RegistrationGroupByOutputType = {
   email: string
   phone: string
   address: string
+  paymentScreenshot: string | null
+  isVerified: boolean
+  ticketIssued: boolean
   createdAt: Date
   _count: RegistrationCountAggregateOutputType | null
   _min: RegistrationMinAggregateOutputType | null
@@ -205,6 +226,9 @@ export type RegistrationWhereInput = {
   email?: Prisma.StringFilter<"Registration"> | string
   phone?: Prisma.StringFilter<"Registration"> | string
   address?: Prisma.StringFilter<"Registration"> | string
+  paymentScreenshot?: Prisma.StringNullableFilter<"Registration"> | string | null
+  isVerified?: Prisma.BoolFilter<"Registration"> | boolean
+  ticketIssued?: Prisma.BoolFilter<"Registration"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Registration"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   event?: Prisma.XOR<Prisma.EventScalarRelationFilter, Prisma.EventWhereInput>
@@ -218,6 +242,9 @@ export type RegistrationOrderByWithRelationInput = {
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   address?: Prisma.SortOrder
+  paymentScreenshot?: Prisma.SortOrderInput | Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
+  ticketIssued?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   event?: Prisma.EventOrderByWithRelationInput
@@ -235,6 +262,9 @@ export type RegistrationWhereUniqueInput = Prisma.AtLeast<{
   email?: Prisma.StringFilter<"Registration"> | string
   phone?: Prisma.StringFilter<"Registration"> | string
   address?: Prisma.StringFilter<"Registration"> | string
+  paymentScreenshot?: Prisma.StringNullableFilter<"Registration"> | string | null
+  isVerified?: Prisma.BoolFilter<"Registration"> | boolean
+  ticketIssued?: Prisma.BoolFilter<"Registration"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Registration"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   event?: Prisma.XOR<Prisma.EventScalarRelationFilter, Prisma.EventWhereInput>
@@ -248,6 +278,9 @@ export type RegistrationOrderByWithAggregationInput = {
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   address?: Prisma.SortOrder
+  paymentScreenshot?: Prisma.SortOrderInput | Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
+  ticketIssued?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.RegistrationCountOrderByAggregateInput
   _max?: Prisma.RegistrationMaxOrderByAggregateInput
@@ -265,6 +298,9 @@ export type RegistrationScalarWhereWithAggregatesInput = {
   email?: Prisma.StringWithAggregatesFilter<"Registration"> | string
   phone?: Prisma.StringWithAggregatesFilter<"Registration"> | string
   address?: Prisma.StringWithAggregatesFilter<"Registration"> | string
+  paymentScreenshot?: Prisma.StringNullableWithAggregatesFilter<"Registration"> | string | null
+  isVerified?: Prisma.BoolWithAggregatesFilter<"Registration"> | boolean
+  ticketIssued?: Prisma.BoolWithAggregatesFilter<"Registration"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Registration"> | Date | string
 }
 
@@ -274,6 +310,9 @@ export type RegistrationCreateInput = {
   email: string
   phone: string
   address: string
+  paymentScreenshot?: string | null
+  isVerified?: boolean
+  ticketIssued?: boolean
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutRegistersInput
   event: Prisma.EventCreateNestedOneWithoutRegistrationsInput
@@ -287,6 +326,9 @@ export type RegistrationUncheckedCreateInput = {
   email: string
   phone: string
   address: string
+  paymentScreenshot?: string | null
+  isVerified?: boolean
+  ticketIssued?: boolean
   createdAt?: Date | string
 }
 
@@ -296,6 +338,9 @@ export type RegistrationUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentScreenshot?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ticketIssued?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutRegistersNestedInput
   event?: Prisma.EventUpdateOneRequiredWithoutRegistrationsNestedInput
@@ -309,6 +354,9 @@ export type RegistrationUncheckedUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentScreenshot?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ticketIssued?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -320,6 +368,9 @@ export type RegistrationCreateManyInput = {
   email: string
   phone: string
   address: string
+  paymentScreenshot?: string | null
+  isVerified?: boolean
+  ticketIssued?: boolean
   createdAt?: Date | string
 }
 
@@ -329,6 +380,9 @@ export type RegistrationUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentScreenshot?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ticketIssued?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -340,6 +394,9 @@ export type RegistrationUncheckedUpdateManyInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentScreenshot?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ticketIssued?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -366,6 +423,9 @@ export type RegistrationCountOrderByAggregateInput = {
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   address?: Prisma.SortOrder
+  paymentScreenshot?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
+  ticketIssued?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -377,6 +437,9 @@ export type RegistrationMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   address?: Prisma.SortOrder
+  paymentScreenshot?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
+  ticketIssued?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -388,6 +451,9 @@ export type RegistrationMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   address?: Prisma.SortOrder
+  paymentScreenshot?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
+  ticketIssued?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -481,6 +547,9 @@ export type RegistrationCreateWithoutUserInput = {
   email: string
   phone: string
   address: string
+  paymentScreenshot?: string | null
+  isVerified?: boolean
+  ticketIssued?: boolean
   createdAt?: Date | string
   event: Prisma.EventCreateNestedOneWithoutRegistrationsInput
 }
@@ -492,6 +561,9 @@ export type RegistrationUncheckedCreateWithoutUserInput = {
   email: string
   phone: string
   address: string
+  paymentScreenshot?: string | null
+  isVerified?: boolean
+  ticketIssued?: boolean
   createdAt?: Date | string
 }
 
@@ -532,6 +604,9 @@ export type RegistrationScalarWhereInput = {
   email?: Prisma.StringFilter<"Registration"> | string
   phone?: Prisma.StringFilter<"Registration"> | string
   address?: Prisma.StringFilter<"Registration"> | string
+  paymentScreenshot?: Prisma.StringNullableFilter<"Registration"> | string | null
+  isVerified?: Prisma.BoolFilter<"Registration"> | boolean
+  ticketIssued?: Prisma.BoolFilter<"Registration"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Registration"> | Date | string
 }
 
@@ -541,6 +616,9 @@ export type RegistrationCreateWithoutEventInput = {
   email: string
   phone: string
   address: string
+  paymentScreenshot?: string | null
+  isVerified?: boolean
+  ticketIssued?: boolean
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutRegistersInput
 }
@@ -552,6 +630,9 @@ export type RegistrationUncheckedCreateWithoutEventInput = {
   email: string
   phone: string
   address: string
+  paymentScreenshot?: string | null
+  isVerified?: boolean
+  ticketIssued?: boolean
   createdAt?: Date | string
 }
 
@@ -588,6 +669,9 @@ export type RegistrationCreateManyUserInput = {
   email: string
   phone: string
   address: string
+  paymentScreenshot?: string | null
+  isVerified?: boolean
+  ticketIssued?: boolean
   createdAt?: Date | string
 }
 
@@ -597,6 +681,9 @@ export type RegistrationUpdateWithoutUserInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentScreenshot?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ticketIssued?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   event?: Prisma.EventUpdateOneRequiredWithoutRegistrationsNestedInput
 }
@@ -608,6 +695,9 @@ export type RegistrationUncheckedUpdateWithoutUserInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentScreenshot?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ticketIssued?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -618,6 +708,9 @@ export type RegistrationUncheckedUpdateManyWithoutUserInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentScreenshot?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ticketIssued?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -628,6 +721,9 @@ export type RegistrationCreateManyEventInput = {
   email: string
   phone: string
   address: string
+  paymentScreenshot?: string | null
+  isVerified?: boolean
+  ticketIssued?: boolean
   createdAt?: Date | string
 }
 
@@ -637,6 +733,9 @@ export type RegistrationUpdateWithoutEventInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentScreenshot?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ticketIssued?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutRegistersNestedInput
 }
@@ -648,6 +747,9 @@ export type RegistrationUncheckedUpdateWithoutEventInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentScreenshot?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ticketIssued?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -658,6 +760,9 @@ export type RegistrationUncheckedUpdateManyWithoutEventInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentScreenshot?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ticketIssued?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -671,6 +776,9 @@ export type RegistrationSelect<ExtArgs extends runtime.Types.Extensions.Internal
   email?: boolean
   phone?: boolean
   address?: boolean
+  paymentScreenshot?: boolean
+  isVerified?: boolean
+  ticketIssued?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
@@ -684,6 +792,9 @@ export type RegistrationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   email?: boolean
   phone?: boolean
   address?: boolean
+  paymentScreenshot?: boolean
+  isVerified?: boolean
+  ticketIssued?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
@@ -697,6 +808,9 @@ export type RegistrationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   email?: boolean
   phone?: boolean
   address?: boolean
+  paymentScreenshot?: boolean
+  isVerified?: boolean
+  ticketIssued?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
@@ -710,10 +824,13 @@ export type RegistrationSelectScalar = {
   email?: boolean
   phone?: boolean
   address?: boolean
+  paymentScreenshot?: boolean
+  isVerified?: boolean
+  ticketIssued?: boolean
   createdAt?: boolean
 }
 
-export type RegistrationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "eventId" | "fullName" | "email" | "phone" | "address" | "createdAt", ExtArgs["result"]["registration"]>
+export type RegistrationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "eventId" | "fullName" | "email" | "phone" | "address" | "paymentScreenshot" | "isVerified" | "ticketIssued" | "createdAt", ExtArgs["result"]["registration"]>
 export type RegistrationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
@@ -741,6 +858,9 @@ export type $RegistrationPayload<ExtArgs extends runtime.Types.Extensions.Intern
     email: string
     phone: string
     address: string
+    paymentScreenshot: string | null
+    isVerified: boolean
+    ticketIssued: boolean
     createdAt: Date
   }, ExtArgs["result"]["registration"]>
   composites: {}
@@ -1174,6 +1294,9 @@ export interface RegistrationFieldRefs {
   readonly email: Prisma.FieldRef<"Registration", 'String'>
   readonly phone: Prisma.FieldRef<"Registration", 'String'>
   readonly address: Prisma.FieldRef<"Registration", 'String'>
+  readonly paymentScreenshot: Prisma.FieldRef<"Registration", 'String'>
+  readonly isVerified: Prisma.FieldRef<"Registration", 'Boolean'>
+  readonly ticketIssued: Prisma.FieldRef<"Registration", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Registration", 'DateTime'>
 }
     

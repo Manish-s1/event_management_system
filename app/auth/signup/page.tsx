@@ -28,6 +28,8 @@ import { toast } from "sonner";
 import { Eye, EyeOff, Mail, User, Lock } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Header from "@/components/components/header";
+import Footer from "@/components/components/footer";
 
 const formSchema = z.object({
     username: z.string().min(3, "Username must be at least 3 characters"),
@@ -78,6 +80,8 @@ export default function Page() {
     };
 
     return (
+        <>
+        <Header />
         <div className="min-h-screen flex items-center justify-center  p-4">
             <Card className="w-full max-w-md shadow-2xl   backdrop-blur-sm">
                 <CardHeader className="space-y-1 pb-6">
@@ -200,5 +204,7 @@ export default function Page() {
                 </CardContent>
             </Card>
         </div>
+        <Footer />
+        </>
     );
 }

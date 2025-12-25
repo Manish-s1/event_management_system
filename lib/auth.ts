@@ -1,10 +1,15 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import { compare } from "bcryptjs";
 import prisma from "./prisma";
 
 export const authOptions: NextAuthOptions = {
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -37,15 +42,25 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
+  pages: {
+    signIn: "/auth/login",
+  },
   callbacks: {
+    async redirect({ url, baseUrl }) {
+      // Allow callback URLs that are on the same origin
+      if (url.startsWith(baseUrl)) return url;
+      // Allow relative callback URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      return baseUrl;
+    },
     async jwt({ token, user }) {
       // On sign in, user object is available
       if (user) {
         token.userId = user.id;
         token.email = user.email;
         token.name = user.name;
-        token.isVerified = user.isVerified;
-        token.role = user.role;
+        token.isVerified = user.isVerified || false;
+        token.role = user.role || "user";
         return token;
       }
 
@@ -56,15 +71,32 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (!dbUser) {
-          // User doesn't exist - clear all user-specific data from token
-          // This effectively invalidates the session
-          return {
-            ...token,
-            userId: undefined,
-            isVerified: undefined,
-            role: undefined,
-            email: undefined,
-          };
+          // For Google OAuth users, create the user if they don't exist
+          if (token.name && token.email && token.picture) {
+            const newUser = await prisma.user.create({
+              data: {
+                email: token.email,
+                username: token.name,
+                password: "", // OAuth users don't have passwords
+                isVerified: true, // Google OAuth users are pre-verified
+                role: "user",
+              },
+            });
+            token.userId = newUser.id.toString();
+            token.isVerified = true;
+            token.role = "user";
+            return token;
+          } else {
+            // User doesn't exist - clear all user-specific data from token
+            // This effectively invalidates the session
+            return {
+              ...token,
+              userId: undefined,
+              isVerified: undefined,
+              role: undefined,
+              email: undefined,
+            };
+          }
         }
 
         token.userId = dbUser.id.toString();
