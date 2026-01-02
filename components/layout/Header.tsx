@@ -9,7 +9,8 @@ import { useState } from "react"
 export default function Header() {
   const { data: session, status } = useSession()
   const router = useRouter()
-  const [q, setQ] = useState('')
+  const [q, setQ] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   
   const getProfileLink = () => {
     if (!session?.user) return '/user/profile'
@@ -43,16 +44,7 @@ export default function Header() {
 
         {/* Navigation */}
         <nav className="flex items-center gap-6">
-          <form onSubmit={submitSearch} className="relative hidden md:block">
-            <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
-            <input
-              type="text"
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Search events..."
-              className="w-64 pl-8 pr-3 py-2 rounded-lg text-sm bg-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </form>
+         
 
           <Link href="/" className="text-sm font-medium hover:text-blue-400 transition-colors">
             Home

@@ -1,10 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { use } from 'react';
-import Header from '@/components/components/header';
-import Footer from '@/components/components/footer';
-import EventCard from '@/components/user/EventCard';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+import EventCard from '@/components/features/events/EventCard';
 import { api } from '@/lib/axios';
 import { useParams } from 'next/navigation';
 import { Calendar } from 'lucide-react';

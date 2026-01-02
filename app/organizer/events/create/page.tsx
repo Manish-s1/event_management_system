@@ -39,6 +39,10 @@ export default function CreateEventPage() {
   const [loading, setLoading] = useState(false);
   const [qrPreview, setQrPreview] = useState<string>('');
   const [imagePreview, setImagePreview] = useState<string>('');
+  const [uploadingQR, setUploadingQR] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [qrObjectUrl, setQrObjectUrl] = useState<string>('');
+  const [imageObjectUrl, setImageObjectUrl] = useState<string>('');
   const router = useRouter();
 
   const form = useForm<EventFormValues>({
@@ -60,6 +64,20 @@ export default function CreateEventPage() {
   const isPaid = form.watch('isPaid');
 
   useEffect(() => {
+    return () => {
+      if (qrObjectUrl) URL.revokeObjectURL(qrObjectUrl);
+      if (imageObjectUrl) URL.revokeObjectURL(imageObjectUrl);
+    };
+  }, [qrObjectUrl, imageObjectUrl]);
+
+  const uploadToPublic = async (file: File, folder: string) => {
+    const formData = new FormData();
+    formData.append('image', file);
+    const res = await api.post(`/upload?folder=${encodeURIComponent(folder)}`, formData);
+    return res.data?.url as string;
+  };
+
+  useEffect(() => {
     const fetchCategories = async () => {
       try {
         const res = await api.get('/categories');
@@ -72,29 +90,51 @@ export default function CreateEventPage() {
     fetchCategories();
   }, []);
 
-  const handleQRUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleQRUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64 = reader.result as string;
-        setQrPreview(base64);
-        form.setValue('paymentQR', base64);
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    if (qrObjectUrl) URL.revokeObjectURL(qrObjectUrl);
+    const localPreview = URL.createObjectURL(file);
+    setQrObjectUrl(localPreview);
+    setQrPreview(localPreview);
+
+    setUploadingQR(true);
+    try {
+      const url = await uploadToPublic(file, 'payment-qr');
+      setQrPreview(url);
+      form.setValue('paymentQR', url, { shouldValidate: true, shouldDirty: true });
+    } catch (error) {
+      console.error('QR upload failed:', error);
+      toast.error('Failed to upload QR code');
+      setQrPreview('');
+      form.setValue('paymentQR', '', { shouldValidate: true, shouldDirty: true });
+    } finally {
+      setUploadingQR(false);
     }
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64 = reader.result as string;
-        setImagePreview(base64);
-        form.setValue('imageUrl', base64);
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    if (imageObjectUrl) URL.revokeObjectURL(imageObjectUrl);
+    const localPreview = URL.createObjectURL(file);
+    setImageObjectUrl(localPreview);
+    setImagePreview(localPreview);
+
+    setUploadingImage(true);
+    try {
+      const url = await uploadToPublic(file, 'events');
+      setImagePreview(url);
+      form.setValue('imageUrl', url, { shouldValidate: true, shouldDirty: true });
+    } catch (error) {
+      console.error('Image upload failed:', error);
+      toast.error('Failed to upload event image');
+      setImagePreview('');
+      form.setValue('imageUrl', '', { shouldValidate: true, shouldDirty: true });
+    } finally {
+      setUploadingImage(false);
     }
   };
 
@@ -128,10 +168,11 @@ export default function CreateEventPage() {
       setLoading(false);
     }
   };
+  
 
   return (
-    <div className="p-10 max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">Create New Event</h1>
+    <div className="p-4 sm:p-6 lg:p-10 max-w-3xl mx-auto">
+      <h1 className="text-3xl font-bold mb-8 tracking-tight">Create New Event</h1>
 
       <Card>
         <CardHeader>
@@ -139,7 +180,7 @@ export default function CreateEventPage() {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-7">
               <FormField
                 control={form.control}
                 name="imageUrl"
@@ -148,7 +189,7 @@ export default function CreateEventPage() {
                     <FormLabel>Event Image</FormLabel>
                     <FormControl>
                       <div className="space-y-4">
-                        <div className="border-2 border-dashed rounded-md p-6 text-center">
+                        <div className="border-2 border-dashed rounded-lg p-6 text-center bg-muted/20 transition-colors hover:bg-muted/30">
                           <input
                             type="file"
                             accept="image/*"
@@ -156,20 +197,21 @@ export default function CreateEventPage() {
                             className="hidden"
                             id="image-upload"
                           />
-                          <label htmlFor="image-upload" className="cursor-pointer">
+                          <label htmlFor="image-upload" className="cursor-pointer block">
                             {imagePreview ? (
                               /* eslint-disable-next-line @next/next/no-img-element */
                               <img
                                 src={imagePreview}
                                 alt="Event Preview"
-                                className="max-w-full max-h-64 mx-auto object-cover rounded-md"
+                                className="max-w-full max-h-64 mx-auto object-cover rounded-lg border bg-background"
                               />
                             ) : (
-                              <div className="flex flex-col items-center">
-                                <Upload className="w-12 h-12 text-slate-400 mb-2" />
-                                <p className="text-sm text-slate-600">
-                                  Click to upload event image
+                              <div className="flex flex-col items-center gap-1">
+                                <Upload className="w-11 h-11 text-muted-foreground/70 mb-1" />
+                                <p className="text-sm text-foreground">
+                                  {uploadingImage ? 'Uploading...' : 'Click to upload event image'}
                                 </p>
+                                <p className="text-xs text-muted-foreground">PNG, JPG, WEBP</p>
                               </div>
                             )}
                           </label>
@@ -204,7 +246,7 @@ export default function CreateEventPage() {
                     <FormControl>
                       <textarea
                         placeholder="Enter event description"
-                        className="w-full min-h-[100px] p-3 border rounded-md"
+                        className="w-full min-h-28 p-3 border rounded-md bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                         {...field}
                       />
                     </FormControl>
@@ -213,7 +255,7 @@ export default function CreateEventPage() {
                 )}
               />
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
                   name="date"
@@ -243,7 +285,7 @@ export default function CreateEventPage() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
                   name="categoryId"
@@ -252,7 +294,7 @@ export default function CreateEventPage() {
                       <FormLabel>Category</FormLabel>
                       <FormControl>
                         <select
-                          className="w-full p-2 border rounded-md"
+                          className="w-full p-2 border rounded-md bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                           {...field}
                         >
                           <option value="">Select category</option>
@@ -287,10 +329,10 @@ export default function CreateEventPage() {
                 control={form.control}
                 name="isPaid"
                 render={({ field }) => (
-                  <FormItem className="flex items-center justify-between border p-4 rounded-md">
+                  <FormItem className="flex items-center justify-between border p-4 rounded-md bg-card">
                     <div>
                       <FormLabel>Paid Event</FormLabel>
-                      <p className="text-sm text-slate-500">Is this a paid event?</p>
+                      <p className="text-sm text-muted-foreground">Is this a paid event?</p>
                     </div>
                     <FormControl>
                       <Switch
@@ -326,7 +368,7 @@ export default function CreateEventPage() {
                         <FormLabel>Payment QR Code</FormLabel>
                         <FormControl>
                           <div className="space-y-4">
-                            <div className="border-2 border-dashed rounded-md p-6 text-center">
+                            <div className="border-2 border-dashed rounded-lg p-6 text-center bg-muted/20 transition-colors hover:bg-muted/30">
                               <input
                                 type="file"
                                 accept="image/*"
@@ -334,20 +376,21 @@ export default function CreateEventPage() {
                                 className="hidden"
                                 id="qr-upload"
                               />
-                              <label htmlFor="qr-upload" className="cursor-pointer">
+                              <label htmlFor="qr-upload" className="cursor-pointer block">
                                 {qrPreview ? (
                                   /* eslint-disable-next-line @next/next/no-img-element */
                                   <img
                                     src={qrPreview}
                                     alt="QR Preview"
-                                    className="max-w-xs mx-auto"
+                                    className="max-w-xs mx-auto border rounded-lg bg-background"
                                   />
                                 ) : (
-                                  <div className="flex flex-col items-center">
-                                    <Upload className="w-12 h-12 text-slate-400 mb-2" />
-                                    <p className="text-sm text-slate-600">
-                                      Click to upload QR code
+                                  <div className="flex flex-col items-center gap-1">
+                                    <Upload className="w-11 h-11 text-muted-foreground/70 mb-1" />
+                                    <p className="text-sm text-foreground">
+                                      {uploadingQR ? 'Uploading...' : 'Click to upload QR code'}
                                     </p>
+                                    <p className="text-xs text-muted-foreground">PNG, JPG, WEBP</p>
                                   </div>
                                 )}
                               </label>
@@ -361,7 +404,7 @@ export default function CreateEventPage() {
                 </>
               )}
 
-              <div className="flex gap-4 pt-4">
+              <div className="flex flex-col-reverse sm:flex-row gap-3 pt-2">
                 <Button
                   type="button"
                   variant="outline"

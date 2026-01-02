@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { User, Mail, Shield, Calendar } from 'lucide-react';
 import Link from 'next/link';
-import Header from '@/components/components/header';
-import Footer from '@/components/components/footer';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 
 export default function UserProfilePage() {
   const { data: session, status } = useSession();

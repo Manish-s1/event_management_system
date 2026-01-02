@@ -2,17 +2,21 @@
 
 import Link from "next/link";
 import { Calendar, Users, MapPin, Clock, ArrowRight } from "lucide-react";
-import Header from "@/components/components/header";
-import Footer from "@/components/components/footer";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import EventCard from "@/components/features/events/EventCard";
 
 interface Event {
   id: string;
   title: string;
   description: string;
   date: string;
+  isPaid: boolean;
+  price: number | null;
   location: string;
+  imageUrl: string;
   availableSlots: number;
   category: {
     name: string;
@@ -72,18 +76,18 @@ export default function Home() {
       </section>
 
       {/* Recent Events Section */}
-      <section className="px-6 py-20 bg-white">
+      <section className="px-6 py-20 bg-background">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-12">
             <div>
-              <h2 className="text-4xl font-bold text-slate-900 mb-2">
+              <h2 className="text-4xl font-bold text-foreground mb-2 tracking-tight">
                 Featured Events
               </h2>
-              <p className="text-slate-600">Handpicked events to explore</p>
+              <p className="text-muted-foreground">Handpicked events to explore</p>
             </div>
             <Link 
               href="/events"
-              className="flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors"
+              className="flex items-center gap-2 text-primary font-semibold hover:text-primary/80 transition-colors"
             >
               See All Events
               <ArrowRight className="w-5 h-5" />
@@ -93,48 +97,66 @@ export default function Home() {
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="bg-slate-100 animate-pulse rounded-xl h-80"></div>
+                <div key={i} className="bg-muted animate-pulse rounded-xl h-80"></div>
               ))}
             </div>
           ) : recentEvents.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {recentEvents.map((event) => (
-                <div key={event.id} className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="bg-linear-to-r from-blue-500 to-purple-600 h-32"></div>
-                  <div className="p-6">
-                    <div className="text-xs font-semibold text-blue-600 mb-2">{event.category.name}</div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-2">{event.title}</h3>
-                    <p className="text-slate-600 text-sm mb-4 line-clamp-2">{event.description}</p>
+            // <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            //   {recentEvents.map((event) => (
+            //     <EventCard key={event.id} event={event} />
+            //     // <div key={event.id} className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
+                  
+            //     //   <Image  src={event.imageUrl} alt={event.title} width={400} height={200} />
+            //     //   <div className="p-6">
+            //     //     <div className="text-xs font-semibold text-blue-600 mb-2">{event.category.name}</div>
+            //     //     <h3 className="text-xl font-bold text-slate-900 mb-2">{event.title}</h3>
+            //     //     <p className="text-slate-600 text-sm mb-4 line-clamp-2">{event.description}</p>
                     
-                    <div className="space-y-2 mb-4">
-                      <div className="flex items-center gap-2 text-sm text-slate-600">
-                        <Calendar className="w-4 h-4" />
-                        <span>{new Date(event.date).toLocaleDateString()}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-slate-600">
-                        <MapPin className="w-4 h-4" />
-                        <span>{event.location}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-slate-600">
-                        <Users className="w-4 h-4" />
-                        <span>{event.availableSlots} slots available</span>
-                      </div>
-                    </div>
+            //     //     <div className="space-y-2 mb-4">
+            //     //       <div className="flex items-center gap-2 text-sm text-slate-600">
+            //     //         <Calendar className="w-4 h-4" />
+            //     //         <span>{new Date(event.date).toLocaleDateString()}</span>
+            //     //       </div>
+            //     //       <div className="flex items-center gap-2 text-sm text-slate-600">
+            //     //         <MapPin className="w-4 h-4" />
+            //     //         <span>{event.location}</span>
+            //     //       </div>
+            //     //       <div className="flex items-center gap-2 text-sm text-slate-600">
+            //     //         <Users className="w-4 h-4" />
+            //     //         <span>{event.availableSlots} slots available</span>
+            //     //       </div>
+            //     //     </div>
 
-                    <Link 
-                      href={`/events/${event.id}`}
-                      className="block w-full bg-blue-600 text-white text-center py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-                    >
-                      View Details
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
+            //     //     <Link 
+            //     //       href={`/events/${event.id}`}
+            //     //       className="block w-full bg-blue-600 text-white text-center py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+            //     //     >
+            //     //       View Details
+            //     //     </Link>
+            //     //   </div>
+            //     // </div>
+            //   ))}
+            // </div>
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                          {recentEvents.map((event) => (
+                            <EventCard
+                              key={event.id}
+                              id={event.id}
+                              title={event.title}
+                              date={event.date}
+                              location={event.location}
+                                isPaid={event.isPaid}
+                              price={event.price}
+                              availableSlots={event.availableSlots}
+                              categoryName={event.category?.name}
+                              imageUrl={event.imageUrl ?? undefined}
+                            />
+                          ))}
+                        </div>
           ) : (
             <div className="text-center py-12">
-              <Calendar className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-              <p className="text-slate-600">No events available at the moment</p>
+              <Calendar className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+              <p className="text-muted-foreground">No events available at the moment</p>
             </div>
           )}
 
@@ -142,7 +164,7 @@ export default function Home() {
             <div className="text-center mt-12">
               <Link 
                 href="/events"
-                className="inline-flex items-center gap-2 bg-slate-900 text-white px-8 py-3 rounded-lg font-semibold hover:bg-slate-800 transition-colors"
+                className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 rounded-md font-semibold hover:bg-primary/90 transition-colors shadow-sm hover:shadow"
               >
                 See More Events
                 <ArrowRight className="w-5 h-5" />

@@ -1,11 +1,11 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react';
-import Header from '@/components/components/header';
-import Footer from '@/components/components/footer';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 import { Calendar, Search } from 'lucide-react';
 import { api } from '@/lib/axios';
-import EventCard from '@/components/user/EventCard';
+import EventCard from '@/components/features/events/EventCard';
 
 interface Event {
   id: string;
@@ -81,9 +81,30 @@ export default function EventsPage() {
     <>
       <Header />
       <div className="min-h-screen bg-slate-50">
+        {/* <div className='max-w-7xl mx-auto px-6 py-12'>
+          <div>
+           <h1 className="text-4xl font-bold text-slate-900 mb-4">All Events</h1>
+           <p className="text-slate-600 mb-6">Discover and book tickets for amazing events</p>
+        </div>
+         <div className=' relative'>
+                <Search className="absolute left-3 top-3 w-5 h-5 text-slate-400" />
+                <input
+                  type="text"
+                  placeholder="Search by name or category..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-9 pr-4 py-2 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+        <div className="max-w-7xl mx-auto px-6 py-12">
+          <div></div>
+          <div></div>
+        </div>
+        </div> */}
+        
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="mb-8">
-            <h1 className="text-4xl font-bold text-slate-900 mb-4">All Events</h1>
+            <h1 className="text-4xl font-bold text-slate-900 mb-3">All Events</h1>
             <p className="text-slate-600 mb-6">Discover and book tickets for amazing events</p>
             
             {/* Filters Row */}
@@ -95,14 +116,14 @@ export default function EventsPage() {
                   placeholder="Search by name or category..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               <select
                 value={categoryId}
                 onChange={(e) => setCategoryId(e.target.value)}
-                className="w-full px-3 py-3 border border-slate-300 rounded-lg bg-white"
+                className="w-full px-3 py-3 border border-slate-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">All Categories</option>
                 {categories.map((c) => (
@@ -113,7 +134,7 @@ export default function EventsPage() {
               <select
                 value={isPaidFilter}
                 onChange={(e) => setIsPaidFilter(e.target.value as 'all'|'paid'|'free')}
-                className="w-full px-3 py-3 border border-slate-300 rounded-lg bg-white"
+                className="w-full px-3 py-3 border border-slate-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="all">All Pricing</option>
                 <option value="paid">Paid</option>
@@ -123,7 +144,7 @@ export default function EventsPage() {
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value as 'upcoming'|'newest'|'oldest')}
-                className="w-full px-3 py-3 border border-slate-300 rounded-lg bg-white"
+                className="w-full px-3 py-3 border border-slate-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="upcoming">Upcoming</option>
                 <option value="newest">Newest</option>
@@ -138,9 +159,9 @@ export default function EventsPage() {
                   id="includePast"
                   checked={includePast}
                   onChange={(e) => setIncludePast(e.target.checked)}
-                  className="w-4 h-4 cursor-pointer"
+                  className="h-4 w-4 cursor-pointer rounded border-slate-300"
                 />
-                <label htmlFor="includePast" className="text-slate-700 font-medium cursor-pointer">
+                <label htmlFor="includePast" className="text-slate-800 font-medium cursor-pointer">
                   Show past events
                 </label>
               </div>
@@ -150,7 +171,7 @@ export default function EventsPage() {
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="bg-white rounded-xl h-96 animate-pulse"></div>
+                <div key={i} className="bg-slate-200 rounded-xl h-96 animate-pulse"></div>
               ))}
             </div>
           ) : events.length > 0 ? (
@@ -172,7 +193,7 @@ export default function EventsPage() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <Calendar className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+              <Calendar className="w-16 h-16 text-slate-400 mx-auto mb-4" />
               <p className="text-slate-600">No events found matching your filters</p>
             </div>
           )}

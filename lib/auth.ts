@@ -60,7 +60,7 @@ export const authOptions: NextAuthOptions = {
         token.email = user.email;
         token.name = user.name;
         token.isVerified = user.isVerified || false;
-        token.role = user.role || "user";
+        token.role = user.role || "USER";
         return token;
       }
 
@@ -79,12 +79,12 @@ export const authOptions: NextAuthOptions = {
                 username: token.name,
                 password: "", // OAuth users don't have passwords
                 isVerified: true, // Google OAuth users are pre-verified
-                role: "user",
+                role: "USER",
               },
             });
             token.userId = newUser.id.toString();
             token.isVerified = true;
-            token.role = "user";
+            token.role = "USER";
             return token;
           } else {
             // User doesn't exist - clear all user-specific data from token

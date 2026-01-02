@@ -1,7 +1,7 @@
+import NavigationBreadCrumbs from "@/components/layout/NavigationBreadCrumbs"
 import { AppSidebar } from "./components/app-sidebar"
 import { LogoutButton } from "./components/LogoutButton"
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
-
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen overflow-hidden">
@@ -12,7 +12,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <header className="border-b bg-white sticky top-0 z-20 shadow-sm">
             <div className="flex h-16 items-center gap-2 px-6">
               <SidebarTrigger />
-              <span className="font-bold text-lg">Admin Panel</span>
+              <NavigationBreadCrumbs/>
               <div className="ml-auto">
                 <LogoutButton />
               </div>
@@ -22,6 +22,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <div className="mx-auto w-full max-w-7xl">{children}</div>
           </main>
         </div>
+        
       </SidebarInset>
     </SidebarProvider>
     </div>

@@ -13,7 +13,7 @@ async function resolveId(params: unknown): Promise<string | undefined> {
 // GET single user by id
 export async function GET(
   _request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const id = await resolveId(params)
@@ -56,7 +56,7 @@ export async function GET(
 
 export async function DELETE(
   _request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
     try {
   const id = await resolveId(params);
@@ -109,7 +109,7 @@ export async function DELETE(
 //put lay sabii change garxa existing field haru
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const id = await resolveId(params);

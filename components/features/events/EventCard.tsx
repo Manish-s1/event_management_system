@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Calendar, MapPin, IndianRupee, Users } from "lucide-react";
+import { Calendar, MapPin, Users } from "lucide-react";
 
 export interface EventCardProps {
   id: string;
@@ -66,7 +66,7 @@ export default function EventCard(props: EventCardProps) {
             <span>{availableSlots} slots available</span>
           </div>
           <div className="flex items-center gap-2 text-sm">
-            <IndianRupee className="w-4 h-4 text-slate-600" />
+            <span className="w-4 h-4 text-slate-600">Rs</span>
             {isPaid ? (
               <span className="text-slate-900 font-semibold">{price ?? 0}</span>
             ) : (

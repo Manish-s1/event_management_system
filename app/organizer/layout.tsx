@@ -1,3 +1,4 @@
+import NavigationBreadCrumbs from "@/components/layout/NavigationBreadCrumbs"
 import { AppSidebar } from "./components/app-sidebar"
 import { LogoutButton } from "./components/LogoutButton"
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
@@ -12,7 +13,7 @@ export default function OrganizerLayout({ children }: { children: React.ReactNod
           <header className="border-b bg-white sticky top-0 z-20 shadow-sm">
             <div className="flex h-16 items-center gap-2 px-6">
               <SidebarTrigger />
-              <span className="font-bold text-lg">Organizer Panel</span>
+              <NavigationBreadCrumbs/>
               <div className="ml-auto">
                 <LogoutButton />
               </div>

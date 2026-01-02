@@ -133,7 +133,7 @@ export default function OrganizerEventsPage() {
                   <span className="font-semibold text-lg">
                     {event.isPaid ? `₹${event.price}` : 'Free'}
                   </span>
-                  <Link href={`/organizer/events/${event.id}/registrations`}>
+                  <Link href={`/organizer/events/${event.id}`}>
                     <Button variant="outline" size="sm">
                       View Registrations
                     </Button>

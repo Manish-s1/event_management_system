@@ -28,8 +28,8 @@ import { toast } from "sonner";
 import { Eye, EyeOff, Mail, User, Lock } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Header from "@/components/components/header";
-import Footer from "@/components/components/footer";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
 const formSchema = z.object({
     username: z.string().min(3, "Username must be at least 3 characters"),

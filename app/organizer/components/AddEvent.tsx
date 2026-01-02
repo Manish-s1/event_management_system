@@ -83,6 +83,8 @@ export function AddCategory({ handleUpdateLocalState, open, onOpenChange, showTr
         }
     }
 
+    
+
 
 
     return (
