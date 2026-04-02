@@ -17,7 +17,6 @@ import {
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -45,6 +44,7 @@ export default function Page() {
 
     const form = useForm<FormData>({
         resolver: zodResolver(formSchema),
+        mode: "onChange",
         defaultValues: {
             username: "",
             email: "",
@@ -55,7 +55,7 @@ export default function Page() {
     const onSubmit = async (data: FormData) => {
         try {
             setLoading(true);
-            const res = await axios.post("/api/auth/signup", data);
+            await axios.post("/api/auth/signup", data);
             toast.success(
                 "Account created successfully! Let's login to get started."
             );
@@ -68,7 +68,7 @@ export default function Page() {
         } catch (error: unknown) {
     // Narrow the type
     if (axios.isAxiosError(error)) {
-      toast.error(error.response?.data?.error || "Failed to create account. Please try again.");
+            toast.error(error.response?.data?.error || error.response?.data?.message || "Failed to create account. Please try again.");
     } else if (error instanceof Error) {
       toast.error(error.message);
     } else {
