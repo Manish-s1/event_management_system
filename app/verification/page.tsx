@@ -48,7 +48,7 @@ export default function VerificationPage() {
             <div className="text-center text-sm text-muted-foreground">
               <p>Need help? Contact support at</p>
               <p className="font-medium text-foreground">
-                info.satri@gmail.com
+                info.support@gmail.com
               </p>
             </div>
 
