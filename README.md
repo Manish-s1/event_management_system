@@ -79,7 +79,7 @@ npm run dev
 
 ## Default Test Credentials
 
-- Admin: `manish123@gmail.com` / `manish123@gmail.com`
+- Admin: `admin@gmail.com` / `admin123`
 
 ## Main Routes
 
